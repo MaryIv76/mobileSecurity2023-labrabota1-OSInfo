@@ -1,0 +1,146 @@
+﻿<Window x:Class="Lab1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+    </Window.Resources>
+    <ScrollViewer Name="instScroll" Loaded="instScrollLoaded">
+        <StackPanel Margin="10">
+            <DockPanel>
+                <DockPanel>
+                    <CheckBox x:Name="allChB" Content="All" Checked="allChBChecked" Unchecked="allChBUnchecked" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                    <CheckBox x:Name="antivirusChB" Content="Antivirus" Checked="chBChecked" Unchecked="chBUnchecked" VerticalAlignment="Center" Margin="15 0 0 0"/>
+                    <CheckBox x:Name="firewallChB" Content="Firewall" Checked="chBChecked" Unchecked="chBUnchecked" VerticalAlignment="Center" Margin="15 0 0 0"/>
+                    <CheckBox x:Name="OSChB" Content="OS" Checked="chBChecked" Unchecked="chBUnchecked" VerticalAlignment="Center" Margin="15 0 0 0"/>
+                    <CheckBox x:Name="hardwareChB" Content="Hardware" Checked="chBChecked" Unchecked="chBUnchecked" VerticalAlignment="Center" Margin="15 0 0 0"/>
+                    <CheckBox x:Name="jsonChB" Content="JSON" Checked="chBChecked" Unchecked="chBUnchecked" VerticalAlignment="Center" Margin="15 0 0 0"/>
+                </DockPanel>
+                <DockPanel Margin="30 0 0 0">
+                    <Button x:Name="btn" Content="Get Info" HorizontalAlignment="Left" Width="100" Click="onBtnGetInfoClick"/>
+                </DockPanel>
+            </DockPanel>
+
+            <TextBlock x:Name="waitTb" Margin="5 10 5 0" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold">Please wait...</TextBlock>
+            
+            <TextBlock x:Name="antivirusTb" Margin="5 10 5 0" FontWeight="Bold">Antivirus</TextBlock>
+            <ListView x:Name="antivirusLv" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding key}" FontWeight="{Binding keyFontWeight}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding value}" FontWeight="{Binding valueFontWeight}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBlock x:Name="firewallTb" Margin="5 10 5 0" FontWeight="Bold">Firewall</TextBlock>
+            <ListView x:Name="firewallLv">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding key}" FontWeight="DemiBold"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding value}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBlock x:Name="OSTb" Margin="5 10 5 0" FontWeight="Bold">OS</TextBlock>
+            <ListView x:Name="OSLv">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding key}" FontWeight="DemiBold"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding value}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <TextBlock x:Name="numOSUpdatesTb" Margin="5 10 5 0" FontWeight="Bold"></TextBlock>
+            <ListView x:Name="OSUpdatesLv">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding key}" FontWeight="DemiBold"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding value}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBlock x:Name="hardwareTb" Margin="5 10 5 0" FontWeight="Bold">Hardware</TextBlock>
+            <ListView x:Name="hardwareLv">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding key}" FontWeight="{Binding keyFontWeight}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding value}" FontWeight="{Binding valueFontWeight}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBlock x:Name="jsonTb" Margin="5 10 5 0" FontWeight="Bold">JSON</TextBlock>
+            <ListView x:Name="jsonLv">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding key}" FontWeight="DemiBold"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding value}" FontWeight="{Binding valueFontWeight}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
