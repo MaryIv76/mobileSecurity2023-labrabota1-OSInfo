@@ -143,7 +143,7 @@ namespace Lab1
 
                 hardwareLv.Items.Add(new Entry { });
                 hardwareLv.Items.Add(new Entry { key = "Disks", keyFontWeight = "Bold" });
-                for (int i = 0; i < hardware.disks.Length; i++)
+                for (int i = 0; i < hardware.disks.Count; i++)
                 {
                     hardwareLv.Items.Add(new Entry { key = "Name", value = hardware.disks[i].name, keyFontWeight = "Bold", valueFontWeight = "Bold" });
                     hardwareLv.Items.Add(new Entry { key = "Size", value = hardware.disks[i].size });

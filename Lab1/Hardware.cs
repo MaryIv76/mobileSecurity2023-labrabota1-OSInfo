@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Management;
 
 namespace Lab1
@@ -10,7 +11,7 @@ namespace Lab1
         public String loadPercentage { get; set; }
         public String totalMemorySize { get; set; }
         public String freePhysMemory { get; set; }
-        public Disk[] disks { get; set; }
+        public List<Disk> disks { get; set; }
 
         public Hardware()
         {
@@ -39,16 +40,22 @@ namespace Lab1
             ManagementClass management3 = new ManagementClass("Win32_LogicalDisk");
             ManagementObjectCollection managementobject3 = management3.GetInstances();
 
-            int i = 0;
-            disks = new Disk[managementobject3.Count];
+            disks = new List<Disk>();
             foreach (ManagementObject mngObject in managementobject3)
             {
-                disks[i++] = new Disk
+                try
                 {
-                    name = mngObject.Properties["Name"].Value.ToString(),
-                    size = fromBytesToGB(mngObject.Properties["Size"].Value.ToString()),
-                    freeSpace = fromBytesToGB(mngObject.Properties["FreeSpace"].Value.ToString())
-                };
+                    disks.Add(new Disk
+                    {
+                        name = mngObject.Properties["Name"].Value.ToString(),
+                        size = fromBytesToGB(mngObject.Properties["Size"].Value.ToString()),
+                        freeSpace = fromBytesToGB(mngObject.Properties["FreeSpace"].Value.ToString())
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Something went wrong: " + ex.Message);
+                }
             }
         }
 
