@@ -1,23 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Management;
 
 namespace Lab1
 {
     internal class AntivirusData
     {
-        public Antivirus[] antiviruses { get; set; }
+        public List<Antivirus> antiviruses { get; set; }
 
         public AntivirusData()
         {
-            ManagementObjectSearcher wmiData = new ManagementObjectSearcher(@"root\SecurityCenter2", "SELECT * FROM AntivirusProduct");
-            ManagementObjectCollection data = wmiData.Get();
-            antiviruses = new Antivirus[data.Count];
-
-            int i = 0;
-            foreach (ManagementObject virusChecker in data)
+            try
             {
-                Antivirus antivirus = new Antivirus(virusChecker);
-                antiviruses.SetValue(antivirus, i++);
+                ManagementObjectSearcher wmiData = new ManagementObjectSearcher(@"root\SecurityCenter2", "SELECT * FROM AntivirusProduct");
+                ManagementObjectCollection data = wmiData.Get();
+                antiviruses = new List<Antivirus>();
+
+                foreach (ManagementObject virusChecker in data)
+                {
+                    Antivirus antivirus = new Antivirus(virusChecker);
+                    antiviruses.Add(antivirus);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Can't read antivirus data: " + ex.Message);
             }
         }
     }

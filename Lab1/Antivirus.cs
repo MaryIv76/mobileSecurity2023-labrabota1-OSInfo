@@ -18,11 +18,18 @@ namespace Lab1
 
         private void readAntivirusData(ManagementObject virusChecker)
         {
-            displayName = virusChecker["displayName"].ToString();
-            instanceGuid = virusChecker["instanceGuid"].ToString();
-            pathToSignedProductExe = virusChecker["pathToSignedProductExe"].ToString();
-            pathToSignedReportingExe = virusChecker["pathToSignedReportingExe"].ToString();
-            productState = convertProductState(virusChecker["productState"].ToString());
+            try
+            {
+                displayName = virusChecker["displayName"].ToString();
+                instanceGuid = virusChecker["instanceGuid"].ToString();
+                pathToSignedProductExe = virusChecker["pathToSignedProductExe"].ToString();
+                pathToSignedReportingExe = virusChecker["pathToSignedReportingExe"].ToString();
+                productState = convertProductState(virusChecker["productState"].ToString());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Can't read antivirus data: " + ex.Message);
+            }
         }
         private String convertProductState(String state)
         {
@@ -38,6 +45,10 @@ namespace Lab1
                     return "enabled and up to date";
                 case "397584":
                     return "enabled and out of date";
+                case "266256":
+                    return "enabled";
+                case "262160":
+                    return "disabled";
                 default:
                     return state;
             }

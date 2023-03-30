@@ -64,7 +64,7 @@ namespace Lab1
 
             Dispatcher.Invoke(() =>
             {
-                for (int i = 0; i < antivirusData.antiviruses.Length; i++)
+                for (int i = 0; i < antivirusData.antiviruses.Count; i++)
                 {
                     antivirusLv.Items.Add(new Entry { key = "Antivirus name", value = antivirusData.antiviruses[i].displayName, keyFontWeight = "Bold", valueFontWeight = "Bold" });
                     antivirusLv.Items.Add(new Entry { key = "Product state", value = antivirusData.antiviruses[i].productState });
@@ -111,7 +111,7 @@ namespace Lab1
                 OSLv.Items.Add(new Entry { key = "OS type", value = os.type });
                 OSLv.Items.Add(new Entry { key = "Bit version", value = os.bits });
                 numOSUpdatesTb.Text = os.numUpdates;
-                for (int i = 0; i < os.updates.Length; i++)
+                for (int i = 0; i < os.updates.Count; i++)
                 {
                     OSUpdatesLv.Items.Add(new Entry { key = $"{i + 1}.", value = os.updates[i] });
                 }
@@ -163,7 +163,7 @@ namespace Lab1
 
             var options = new JsonSerializerOptions
             {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic, UnicodeRanges.GeneralPunctuation),
                 WriteIndented = true
             };
 

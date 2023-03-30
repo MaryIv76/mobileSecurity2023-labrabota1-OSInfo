@@ -35,7 +35,7 @@ namespace Lab1
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Something went wrong: " + ex.Message);
+                Console.WriteLine("Can't read firewall data: " + ex.Message);
             }
         }
     }

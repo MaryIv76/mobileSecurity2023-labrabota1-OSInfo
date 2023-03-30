@@ -20,42 +20,63 @@ namespace Lab1
 
         private void readHardwareData()
         {
-            ManagementClass management = new ManagementClass("Win32_Processor");
-            ManagementObjectCollection managementobject = management.GetInstances();
-            foreach (ManagementObject mngObject in managementobject)
+            try
             {
-                numCores = mngObject.Properties["NumberOfCores"].Value.ToString();
-                numLogProcs = mngObject.Properties["NumberOfLogicalProcessors"].Value.ToString();
-                loadPercentage = mngObject.Properties["LoadPercentage"].Value.ToString() + "%";
-            }
-
-            ManagementClass management2 = new ManagementClass("Win32_OperatingSystem");
-            ManagementObjectCollection managementobject2 = management2.GetInstances();
-            foreach (ManagementObject mngObject in managementobject2)
-            {
-                totalMemorySize = fromKBToGB(mngObject.Properties["TotalVisibleMemorySize"].Value.ToString());
-                freePhysMemory = fromKBToGB(mngObject.Properties["FreePhysicalMemory"].Value.ToString());
-            }
-
-            ManagementClass management3 = new ManagementClass("Win32_LogicalDisk");
-            ManagementObjectCollection managementobject3 = management3.GetInstances();
-
-            disks = new List<Disk>();
-            foreach (ManagementObject mngObject in managementobject3)
-            {
-                try
+                ManagementClass management = new ManagementClass("Win32_Processor");
+                ManagementObjectCollection managementobject = management.GetInstances();
+                foreach (ManagementObject mngObject in managementobject)
                 {
-                    disks.Add(new Disk
+                    numCores = mngObject.Properties["NumberOfCores"].Value.ToString();
+                    numLogProcs = mngObject.Properties["NumberOfLogicalProcessors"].Value.ToString();
+                    loadPercentage = mngObject.Properties["LoadPercentage"].Value.ToString() + "%";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Can't read processor data: " + ex.Message);
+            }
+
+            try
+            {
+                ManagementClass management2 = new ManagementClass("Win32_OperatingSystem");
+                ManagementObjectCollection managementobject2 = management2.GetInstances();
+                foreach (ManagementObject mngObject in managementobject2)
+                {
+                    totalMemorySize = fromKBToGB(mngObject.Properties["TotalVisibleMemorySize"].Value.ToString());
+                    freePhysMemory = fromKBToGB(mngObject.Properties["FreePhysicalMemory"].Value.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Can't read physical memory data: " + ex.Message);
+            }
+
+            try
+            {
+                ManagementClass management3 = new ManagementClass("Win32_LogicalDisk");
+                ManagementObjectCollection managementobject3 = management3.GetInstances();
+
+                disks = new List<Disk>();
+                foreach (ManagementObject mngObject in managementobject3)
+                {
+                    try
                     {
-                        name = mngObject.Properties["Name"].Value.ToString(),
-                        size = fromBytesToGB(mngObject.Properties["Size"].Value.ToString()),
-                        freeSpace = fromBytesToGB(mngObject.Properties["FreeSpace"].Value.ToString())
-                    });
+                        disks.Add(new Disk
+                        {
+                            name = mngObject.Properties["Name"].Value.ToString(),
+                            size = fromBytesToGB(mngObject.Properties["Size"].Value.ToString()),
+                            freeSpace = fromBytesToGB(mngObject.Properties["FreeSpace"].Value.ToString())
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Can't read disk data: " + ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Something went wrong: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Can't read logical disks data: " + ex.Message);
             }
         }
 
